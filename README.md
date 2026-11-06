@@ -46,9 +46,10 @@ pausas, incluyendo la pausa justo antes de completar K. También ejecuta
 | 3 | 989 de 989 |
 | 5 | 1035 de 1035 |
 
-vvp terminó con código 0. En esta máquina Icarus 14 de desarrollo generó sim,
-pero el compilador terminó con el error de Windows 0xC0000005. Falta confirmar
-la compilación sin ese error en una instalación estable.
+La compilación y la simulación terminaron con código 0 usando Icarus 14.0.
+También pasó la compilación del módulo en Verilog 2001 para K=2 a K=8.
+Una revisión adicional con un modelo independiente pasó 657008 ciclos entre
+esos valores de K, incluyendo reset, pausas y cambios del botón.
 
 ## Commits del desarrollo
 
