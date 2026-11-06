@@ -93,7 +93,8 @@ no sustituye una herramienta de síntesis. No se hizo prueba física ni se requi
 | cad42abaf12d23116617fee468212e365b778562 | Interfaz, estructura y plan; salida provisional cero |
 | 2001e90eea7216b62fb64b76d813f23e4089f94d | Filtro parcial funcional, contador, reset y pausa; sin press ni play |
 | 4497b1d0179663ea4ad559d711d67763488f6641 | press y play; comprobaciones automáticas y simulación de ambos K |
-| HEAD de esta entrega: obtener con git rev-parse HEAD | Solución final documentada, resultados y limitación del compilador |
+| 92c5a273ebe3d9935d8136e32bdaca6bbe6b390f | Solución final documentada, resultados y limitación del compilador |
+| HEAD: obtener con git rev-parse HEAD | Actualización de la entrega con el enlace del repositorio publicado |
 
 El hash de un commit no puede incluirse dentro de ese mismo commit: cambiar el
 README cambiaría el hash. El hash completo final se entrega aparte y se obtiene
@@ -102,15 +103,15 @@ No se reescribió ni se hizo squash del historial.
 
 ## Entrega
 
-Repositorio local preparado con el nombre verilog-CC07-20230113. Todavía no se
-ha creado ni publicado en GitHub. Crear un repositorio vacío con ese nombre y
-subir el historial completo, sin inicializarlo con otro README:
+Repositorio público: [Rikyry/verilog-CC07-20230113](https://github.com/Rikyry/verilog-CC07-20230113).
+Se publicó la rama main con las cuatro etapas originales completas y una
+actualización de documentación. Para descargarlo y consultar el hash a entregar:
 
 ```sh
-git remote add origin https://github.com/USUARIO/verilog-CC07-20230113.git
-git push -u origin main
+git clone https://github.com/Rikyry/verilog-CC07-20230113.git
+cd verilog-CC07-20230113
 git rev-parse HEAD
 ```
 
-Reemplazar USUARIO por la cuenta correspondiente. Si se publica privado,
-conceder acceso al docente. Entregar su enlace y el hash completo final.
+Entregar el enlace del repositorio y el hash completo final. Los comandos de
+simulación indicados arriba se ejecutan dentro de la carpeta descargada.
