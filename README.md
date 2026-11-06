@@ -1,80 +1,75 @@
-# CC07: filtro de botón y reproducción
+# CC07 - Filtro de botón
 
 Matrícula: 20230113  
 Correo: 20230113@itla.edu.do
 
-Fuente: CC07_20230113_25_puntos.docx. Proyecto independiente del reto de la ALU.
+Reto: filtro de botón y conmutación de reproducción, del archivo
+CC07_20230113_25_puntos.docx.
 
-## Funcionamiento
+## Cómo funciona
 
-El circuito guarda el nivel filtrado, un contador, press y play. Sólo usa
-cmd[0]. data y cmd[7:1] se ignoran. La salida es y[0]=nivel, y[1]=press,
-y[2]=play y y[15:3]=0. K es entero y admite el intervalo 2 a 8.
+La idea es que un rebote corto del botón no cuente como una pulsación.
+Para eso el circuito guarda el nivel del botón y lleva un contador.
+Si cmd[0] es diferente del nivel guardado, va contando las muestras con en=1.
+Cuando llega a K, acepta el nuevo nivel y pone el contador en cero.
+Si antes de llegar a K el botón vuelve al nivel guardado, la cuenta se borra.
+K puede valer de 2 a 8.
 
-El contador acumula muestras habilitadas distintas del nivel aceptado. En la
-muestra K cambia el nivel y vuelve a cero. Una muestra habilitada igual al
-nivel aceptado borra la cuenta. Al aceptar 0 a 1, press vale uno durante ese
-ciclo y play cambia de estado. Mantener el botón alto no repite el evento.
-Aceptar una liberación no cambia play y permite otra pulsación.
+Al aceptar el cambio de 0 a 1 sale un pulso press y play cambia de estado.
+Dejar el botón presionado no genera más pulsos. Hay que soltarlo durante K
+muestras habilitadas para que se pueda aceptar otra pulsación.
 
-Prioridad en cada flanco positivo:
+Las salidas son y[0] para el nivel, y[1] para press y y[2] para play.
+Los demás bits de y quedan en cero. Sólo se usa cmd[0]; data y los otros bits
+de cmd se ignoran.
 
-1. rst borra todo, aunque en=0 o el botón esté alto.
-2. Sin reset, press se borra siempre.
-3. Con en=1 se procesa la muestra; con en=0 se conservan nivel, contador y play.
+## Reset y pausa
 
-Caso límite: con K=3 y dos muestras altas acumuladas, una pausa conserva la
-cuenta aunque el botón cambie durante ella. La siguiente muestra habilitada
-alta acepta la pulsación. Si esa muestra es baja, borra la cuenta. Si la pausa
-empieza después de una aceptación, press se borra en su primer flanco.
+El reset es síncrono y tiene prioridad sobre en. En el flanco positivo,
+si rst=1, el nivel, contador, press y play quedan en cero.
+Si en=0, se conserva la cuenta, el nivel y play. press sí se borra en cada
+flanco, incluso estando en pausa.
 
-El DUT usa Verilog 2001, un único reloj y asignaciones no bloqueantes para
-estado. No contiene initial, retardos, force ni lectura de archivos. Las
-entradas ya son síncronas según el enunciado.
+Un caso límite: con K=3, si ya se contaron dos muestras altas y se pausa,
+la cuenta sigue en dos. Al habilitar otra vez, una muestra alta completa la
+pulsación. Si esa muestra es baja, se borra la cuenta y toca empezar de nuevo.
+Los cambios del botón durante la pausa no cuentan.
 
-## Ejecutar
+El módulo usa Verilog 2001 y sólo clk como reloj. El estado se actualiza con
+asignaciones no bloqueantes. En top_module no hay initial ni retardos.
 
-Instalar Icarus Verilog 12 o posterior y poner iverilog y vvp en PATH.
-Desde la raíz del repositorio:
+## Cómo correr las pruebas
+
+Hace falta Icarus Verilog 12 o más reciente, con iverilog y vvp en PATH.
+En la carpeta del proyecto se ejecuta:
 
 ```sh
 iverilog -g2012 -s tb_student -o sim top_module.v tb_student.v
 vvp sim
 ```
 
-El DUT también puede compilarse por separado en modo Verilog 2001:
+El archivo sim que se genera no se sube al repositorio.
 
-```sh
-iverilog -g2001 -s top_module -o rtl_check top_module.v
-```
+## Pruebas y resultado
 
-No subir sim ni rtl_check al repositorio. El testbench usa características de
-simulación permitidas por -g2012; el DUT conserva compatibilidad Verilog 2001.
+El testbench prueba K=3 y K=5. Revisa los 16 bits de la salida 1 ns después
+de cada flanco positivo y termina con error si algo no coincide, incluso X o Z.
 
-## Pruebas propias y resultados
+Las pruebas incluyen pulsar, mantener, soltar y volver a pulsar; reset con el
+botón alto y play activo; rebotes de K-1 muestras; aceptación en K; pausas antes
+de completar la cuenta; borrado de press en pausa; y reset durante pulsación
+y liberación, también con en=0.
 
-Se ejecutan K=3 y K=5 en paralelo. Cada paso aplica entradas en el flanco
-negativo y compara los 16 bits de y un nanosegundo después del positivo.
-La comparación estricta detecta X y Z. El modelo cuenta la longitud de la
-racha, sin leer señales internas del DUT. Un fallo termina con código no cero.
+Además hay 900 ciclos pseudoaleatorios por cada K, variando reset, enable,
+cmd y data. La semilla es 32'h20230113 XOR K y se usa xorshift32, así que se
+puede repetir la misma prueba.
 
-| Grupo propio | Caso | Comparaciones K=3 | Comparaciones K=5 |
-| --- | --- | ---: | ---: |
-| G1 | Reset con botón alto y play activo; prioridad sobre enable | 9 | 13 |
-| G2 | Pulsar, mantener, liberar y volver a pulsar | 19 | 27 |
-| G3 | Rebotes de K-1 muestras y aceptación exacta en K | 22 | 36 |
-| G4 | Pausa antes de K, conservación de cuenta y borrado de press | 17 | 25 |
-| G5 | Reset durante pulsación y liberación; liberación en pausa | 22 | 34 |
-| G6 | 900 ciclos pseudoaleatorios con reset, pausas y bits no usados | 900 | 900 |
-| Total | Todas correctas | 989 | 1035 |
+| K | Comparaciones | Resultado |
+| --- | ---: | --- |
+| 3 | 989 | Todas correctas |
+| 5 | 1035 | Todas correctas |
 
-Semilla: 32'h20230113 XOR K, generador xorshift32 implementado en el testbench.
-Son pruebas propias basadas en el contrato; no son los archivos privados del docente.
-
-Verificación local: Icarus 14.0 (devel), Windows. El compilador instalado genera
-el archivo de simulación, pero su proceso termina con -1073741819
-(0xC0000005). Ocurrió también al compilar sólo el DUT con -g2001. vvp ejecutó
-archivos recién generados y terminó con código 0 y el siguiente resultado:
+La salida obtenida fue:
 
 ```text
 PASS K=3 total=989
@@ -82,36 +77,34 @@ PASS K=5 total=1035
 PASS tb_student: K=3 y K=5
 ```
 
-La simulación pasó 2024 comparaciones. Queda pendiente confirmar una compilación
-con salida 0 en una instalación estable de Icarus 12 o posterior. Esta prueba
-no sustituye una herramienta de síntesis. No se hizo prueba física ni se requiere FPGA.
+Hubo un problema con Icarus 14.0 de desarrollo instalado en Windows: genera
+el archivo sim, pero el compilador termina con el error 0xC0000005.
+También pasó al compilar sólo el módulo con -g2001. vvp sí ejecutó los archivos
+recién generados y terminó con código 0. Pasaron las 2024 comparaciones;
+falta comprobar que el compilador termine sin error en una instalación estable.
+No se requiere tarjeta FPGA para este reto.
 
-## Avance real
+## Commits
 
-| Commit | Avance |
+| Hash | Cambio |
 | --- | --- |
-| cad42abaf12d23116617fee468212e365b778562 | Interfaz, estructura y plan; salida provisional cero |
-| 2001e90eea7216b62fb64b76d813f23e4089f94d | Filtro parcial funcional, contador, reset y pausa; sin press ni play |
-| 4497b1d0179663ea4ad559d711d67763488f6641 | press y play; comprobaciones automáticas y simulación de ambos K |
-| 92c5a273ebe3d9935d8136e32bdaca6bbe6b390f | Solución final documentada, resultados y limitación del compilador |
-| HEAD: obtener con git rev-parse HEAD | Actualización de la entrega con el enlace del repositorio publicado |
+| cad42ab | Interfaz y plan de trabajo |
+| 2001e90 | Filtro parcial con contador y pausa |
+| 4497b1d | press, play y pruebas automáticas |
+| 92c5a27 | Documentación de la solución y los resultados |
+| ccc11c4 | Enlace del repositorio publicado |
+| HEAD | README simplificado |
 
-El hash de un commit no puede incluirse dentro de ese mismo commit: cambiar el
-README cambiaría el hash. El hash completo final se entrega aparte y se obtiene
-con `git rev-parse HEAD`. Para ver las cuatro etapas: `git log --reverse --oneline`.
-No se reescribió ni se hizo squash del historial.
+Las cuatro etapas originales siguen en el historial. Se pueden ver con
+`git log --reverse --oneline`.
 
 ## Entrega
 
-Repositorio público: [Rikyry/verilog-CC07-20230113](https://github.com/Rikyry/verilog-CC07-20230113).
-Se publicó la rama main con las cuatro etapas originales completas y una
-actualización de documentación. Para descargarlo y consultar el hash a entregar:
+Repositorio: https://github.com/Rikyry/verilog-CC07-20230113
+
+Los archivos son top_module.v, tb_student.v y README.md.
+Para obtener el hash completo del último commit que se entrega:
 
 ```sh
-git clone https://github.com/Rikyry/verilog-CC07-20230113.git
-cd verilog-CC07-20230113
 git rev-parse HEAD
 ```
-
-Entregar el enlace del repositorio y el hash completo final. Los comandos de
-simulación indicados arriba se ejecutan dentro de la carpeta descargada.
