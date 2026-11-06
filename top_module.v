@@ -4,21 +4,30 @@ module top_module #(parameter integer K=3)(
     output wire [15:0] y
 );
     reg nivel;
+    reg press, play;
     reg [3:0] contador; // K entre 2 y 8.
     always @(posedge clk) begin
         if (rst) begin
             nivel <= 1'b0;
             contador <= 0;
-        end else if (en) begin
+            press <= 1'b0;
+            play <= 1'b0;
+        end else begin
+          press <= 1'b0;
+          if (en) begin
             if (cmd[0] == nivel)
                 contador <= 0;
             else if (contador == K-1) begin
                 nivel <= cmd[0];
                 contador <= 0;
+                if (cmd[0]) begin
+                    press <= 1'b1;
+                    play <= ~play;
+                end
             end else
                 contador <= contador + 1'b1;
+          end
         end
     end
-    // Filtro funcional; press y play se agregan en la siguiente etapa.
-    assign y = {15'b0, nivel};
+    assign y = {13'b0, play, press, nivel};
 endmodule
