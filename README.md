@@ -12,4 +12,5 @@ Fuente: CC07_20230113_25_puntos.docx, filtro de botón y conmutación de reprodu
 3. Añadir press, play y pruebas automáticas para K=3 y K=5.
 4. Revisar los resultados y documentar la entrega.
 
-Esta etapa sólo contiene la estructura, todavía no la solución funcional.
+Etapa parcial: el nivel ya acepta cambios tras K muestras habilitadas.
+Reset borra el nivel y contador; en=0 conserva ambos. Faltan press y play.
