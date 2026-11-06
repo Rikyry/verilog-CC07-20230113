@@ -59,13 +59,4 @@ la compilación sin ese error en una instalación estable.
 | 4497b1d | press, play y pruebas automáticas |
 | 92c5a27 | Solución final documentada y resultados |
 
-Después se actualizó el enlace del repositorio y se simplificó este README.
-El historial completo se ve con `git log --oneline`.
-
 Repositorio: https://github.com/Rikyry/verilog-CC07-20230113
-
-Para obtener el hash completo del último commit que se entrega:
-
-```sh
-git rev-parse HEAD
-```
