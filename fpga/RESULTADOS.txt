@@ -1,0 +1,26 @@
+CC07 PMOD - Verificacion del 13 de noviembre de 2026
+
+Dispositivo: GW5A-LV25MG121NC1/I0, version A.
+GOWIN: V1.9.11.03 Education.
+Reloj: 50 MHz.
+Sintesis: completada.
+Place & Route: completado.
+Generacion del archivo cc07_pmod.fs: completada.
+Violaciones de setup: 0.
+Violaciones de hold: 0.
+Fmax interna informada: 206.265 MHz para una restriccion de 50 MHz.
+Recursos informados: 187 unidades logicas, 120 registros; 0 latches.
+
+Icarus 14.0, compilacion y simulacion con salida 0.
+Pruebas originales tb_student: K=3, 989; K=5, 1035; todas correctas.
+Prueba de integracion tb_pmod: 5640 comprobaciones correctas por ciclo.
+Muestras habilitadas: 165. Pulsaciones aceptadas: 5 para K3 y 3 para K5.
+Incluye sincronizacion, pausa, reset prioritario, cambios de K, duracion del
+indicador press, polaridad LED, parpadeo y entradas reproducibles.
+
+El bloque top_module.v conserva el mismo contenido anterior.
+La simulacion usa tiempos reducidos por parametros para verificar los mismos
+contadores y controles. El archivo para la placa usa los parametros normales:
+50 MHz, muestras cada 5 ms e indicador press de 100 ms.
+
+Pendiente: programacion SRAM y comprobacion fisica con los modulos del usuario.

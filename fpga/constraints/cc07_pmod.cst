@@ -1,0 +1,32 @@
+// Tang Primer 25K Dock 60033, core 52300.
+// BTN4+4 en J6; LEDx8 en J5. GPIO de 3.3 V.
+IO_LOC "clk" E2;
+IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=NONE;
+
+// Dos botones de la derecha, mirando el texto del modulo derecho.
+IO_LOC "btn_n[0]" F5; // J6.11, boton derecho (bit 0 del ejemplo Sipeed)
+IO_PORT "btn_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "btn_n[1]" G7; // J6.10, siguiente boton: reset
+IO_PORT "btn_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "sw_n[0]" G5; // J6.12, switch derecho: enable
+IO_PORT "sw_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+IO_LOC "sw_n[1]" G8; // J6.9, siguiente switch: K=5 cuando ON
+IO_PORT "sw_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+// D1..D8 del esquema PMOD_LEDx8; salidas activas en cero.
+IO_LOC "led_n[0]" G10; // D1, J5.11
+IO_LOC "led_n[1]" G11; // D2, J5.12
+IO_LOC "led_n[2]" D10; // D3, J5.9
+IO_LOC "led_n[3]" D11; // D4, J5.10
+IO_LOC "led_n[4]" C11; // D5, J5.6
+IO_LOC "led_n[5]" C10; // D6, J5.5
+IO_LOC "led_n[6]" B11; // D7, J5.8
+IO_LOC "led_n[7]" B10; // D8, J5.7
+IO_PORT "led_n[0]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[1]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[2]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[3]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[4]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[5]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[6]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;
+IO_PORT "led_n[7]" IO_TYPE=LVCMOS33 PULL_MODE=NONE DRIVE=4;

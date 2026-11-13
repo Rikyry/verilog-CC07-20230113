@@ -1,0 +1,75 @@
+CC07 en Tang Primer 25K con los dos modulos PMOD
+
+Material: Tang Primer 25K con Dock, PMOD-BTN4+4, PMOD-LEDx8 y cable USB-C de datos.
+Referencia de placa: core 52300 / Dock 60033, GW5A-LV25MG121NC1/I0 version A.
+
+CONEXIONES
+1. Desconectar el cable USB antes de poner o quitar los modulos.
+2. Conectar PMOD-BTN4+4 en J6 y PMOD-LEDx8 en J5 del Dock.
+3. Alinear 3V3 y GND del modulo con 3V3 y GND del conector. No invertir ni
+   desplazar una fila. El conector J4 queda libre.
+4. Conectar USB-C al puerto de programacion.
+
+CONTROLES
+Mirando el modulo con el texto PMOD-BTN4+4 legible y los botones abajo:
+- Boton del extremo derecho (B0, F5): pulsacion de prueba.
+- Siguiente boton hacia la izquierda (B1, G7): reset. Mantenerlo presionado
+  un momento despues de cargar el archivo para iniciar todo el estado.
+- Switch del extremo derecho (bit 0, G5): ON habilita, OFF pausa.
+- Siguiente switch hacia la izquierda (bit 1, G8): OFF usa K=3, ON usa K=5.
+  Al cambiarlo, el circuito reinicia su estado automaticamente.
+- Los otros dos botones y los otros dos switches quedan sin uso.
+
+LED (D1 a D8, numeracion del esquema PMOD_LEDx8)
+D1: nivel filtrado.
+D2: destello de press durante 100 ms para poder verlo.
+D3: play; cambia de estado con cada pulsacion aceptada.
+D4: habilitado.
+D5: K=3 seleccionado.
+D6: K=5 seleccionado.
+D7: boton antes del filtro, ya sincronizado.
+D8: parpadeo de funcionamiento, un ciclo por segundo.
+
+El pulso press del bloque del reto sigue durando un solo ciclo de reloj.
+Solo se prolonga su indicador visual. El bloque top_module.v no se modifico.
+Se conserva el reloj de 50 MHz y se habilita una muestra cada 5 ms:
+K=3 requiere tres muestras (aproximadamente 15 ms) y K=5 cinco (25 ms).
+Las entradas fisicas pasan por dos etapas de sincronizacion.
+
+PRUEBA EN LA PLACA
+1. Seleccionar K=3 (switch de K en OFF) y enable en ON.
+2. Presionar y soltar reset. D5 debe indicar K=3 y D8 debe parpadear.
+3. Presionar B0: D1 enciende, D2 da un destello y D3 cambia de estado.
+4. Mantener B0 presionado: D3 debe quedarse igual y D2 debe apagarse.
+5. Soltar B0: D1 se apaga y D3 conserva su estado.
+6. Volver a presionar B0: D3 cambia al estado contrario.
+7. Poner enable en OFF: las entradas nuevas no cambian el nivel ni play.
+8. Probar reset con enable en OFF: nivel y play se borran igualmente.
+9. Cambiar K a ON y repetir. D6 debe indicar K=5.
+
+GENERAR EL ARCHIVO CON GOWIN
+Desde la raiz del repositorio, en PowerShell:
+& 'C:\Gowin\Gowin_V1.9.11.03_Education_x64\IDE\bin\gw_sh.exe' fpga\build.tcl
+
+El script genera el proyecto en fpga/gowin/cc07_pmod y copia el archivo final
+a fpga/bitstream/cc07_pmod.fs. Ajustar la ruta del ejecutable si GOWIN esta
+instalado en otra carpeta. El proyecto selecciona el dispositivo indicado arriba.
+Para esta primera prueba, usar SRAM Program en Gowin Programmer y seleccionar
+cc07_pmod.fs. La carga SRAM se pierde al desconectar la alimentacion.
+
+SIMULACION
+Desde la raiz, con Icarus 12 o posterior en PATH:
+iverilog -g2012 -s tb_student -o sim top_module.v tb_student.v
+vvp sim
+iverilog -g2012 -s tb_pmod -o sim_pmod top_module.v fpga/src/cc07_pmod.v fpga/sim/tb_pmod.v
+vvp sim_pmod
+
+FUENTES DEL CABLEADO
+https://wiki.sipeed.com/hardware/en/tang/tang-PMOD/FPGA_PMOD.html
+https://github.com/sipeed/TangPrimer-25K-example/tree/main/pmod_digitalTube-2bit
+Esquemas Sipeed: Dock Tang_25K-60033 y PMOD_8XLED; las salidas LED son activas
+en cero. El orden D1..D8 se asigno segun el esquema, no segun el vector del demo.
+
+ESTADO
+Generado y comprobado por simulacion, sintesis y place & route.
+Falta cargarlo y comprobar los modulos fisicos en la placa del usuario.

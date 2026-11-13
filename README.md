@@ -60,4 +60,10 @@ esos valores de K, incluyendo reset, pausas y cambios del botón.
 | 4497b1d | press, play y pruebas automáticas |
 | 92c5a27 | Solución final documentada y resultados |
 
+## Montaje en la Tang Primer 25K
+
+La carpeta fpga contiene la adaptacion para el modulo de 8 LED y el de
+4 botones con 4 switches. Las conexiones y la prueba estan en
+[fpga/LEEME.txt](fpga/LEEME.txt). top_module.v conserva el codigo del reto.
+
 Repositorio: https://github.com/Rikyry/verilog-CC07-20230113

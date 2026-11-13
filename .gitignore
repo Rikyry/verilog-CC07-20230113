@@ -1,0 +1,8 @@
+/sim
+/rtl_check
+/sim_pmod
+/fpga/impl/
+*.gprj.user
+/fpga/gowin/
+/fpga/bitstream/
+*.log
