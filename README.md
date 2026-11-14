@@ -71,4 +71,7 @@ su estado al soltar el boton. Tambien funcionaron la pausa, la reanudacion y
 el reset estando en pausa. Los detalles estan en
 [fpga/RESULTADOS.txt](fpga/RESULTADOS.txt).
 
+Para repasar el contador, los botones y la explicacion del circuito:
+[fpga/REPASO_CC07.md](fpga/REPASO_CC07.md).
+
 Repositorio: https://github.com/Rikyry/verilog-CC07-20230113
