@@ -5,9 +5,12 @@ Referencia de placa: core 52300 / Dock 60033, GW5A-LV25MG121NC1/I0 version A.
 
 CONEXIONES
 1. Desconectar el cable USB antes de poner o quitar los modulos.
-2. Conectar PMOD-BTN4+4 en J6 y PMOD-LEDx8 en J5 del Dock.
+2. Conectar PMOD-BTN4+4 en J6 y PMOD-LEDx8 en J4 del Dock.
+   Mirando la placa con USB-C a la derecha, USB-A grande a la izquierda
+   y los tres conectores PMOD hacia abajo: botones a la izquierda (J6),
+   centro libre (J5), LED a la derecha junto al USB-C (J4).
 3. Alinear 3V3 y GND del modulo con 3V3 y GND del conector. No invertir ni
-   desplazar una fila. El conector J4 queda libre.
+   desplazar una fila. El conector J5 queda libre.
 4. Conectar USB-C al puerto de programacion.
 
 CONTROLES

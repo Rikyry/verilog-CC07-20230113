@@ -6,6 +6,8 @@ Reloj: 50 MHz.
 Sintesis: completada.
 Place & Route: completado.
 Generacion del archivo cc07_pmod.fs: completada.
+Conectores comprobados contra esquema: BTN4+4 en J6, LEDx8 en J4; J5 libre.
+Orden D1..D8 corregido segun contactos del esquema PMOD_LEDx8 y Dock 60033.
 Violaciones de setup: 0.
 Violaciones de hold: 0.
 Fmax interna informada: 206.265 MHz para una restriccion de 50 MHz.
