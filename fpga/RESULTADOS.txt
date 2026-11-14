@@ -25,4 +25,25 @@ La simulacion usa tiempos reducidos por parametros para verificar los mismos
 contadores y controles. El archivo para la placa usa los parametros normales:
 50 MHz, muestras cada 5 ms e indicador press de 100 ms.
 
-Pendiente: programacion SRAM y comprobacion fisica con los modulos del usuario.
+PRUEBA EN LA PLACA
+Fecha local: 13 de noviembre de 2026.
+Tang Primer 25K con PMOD-BTN4+4 en J6 y PMOD-LEDx8 en J4.
+Programacion SRAM completada en Gowin Programmer: Finished.
+Dispositivo detectado: GW5A-25A, IDCODE 0x0001281B.
+User Code: 0x000054BE. Status Code: 0x76026238.
+SHA256 del archivo cargado cc07_pmod.fs:
+4892deed948f3bce73a771d524614c80907f6153ad2c292f92cafce520618517
+
+Pruebas manuales realizadas y confirmadas al observar los LED:
+- K=5: una pulsacion enciende play y la siguiente lo apaga. El estado se
+  conserva despues de soltar el boton.
+- El boton 2 reinicia el estado.
+- Al pausar con play encendido, las nuevas pulsaciones no cambian play.
+- Al volver a habilitar, otra pulsacion vuelve a cambiar play.
+- K=3: se repitio la alternancia de play correctamente.
+- Con el circuito en pausa, reset apaga play igualmente.
+
+Estas comprobaciones fueron visuales. Las K muestras exactas, el pulso press
+de un ciclo, los rebotes y las secuencias aleatorias se verificaron en
+simulacion. No se midieron tiempos con instrumentos en la placa.
+La carga fue por SRAM; se pierde al quitar la alimentacion.

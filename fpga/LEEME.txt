@@ -14,14 +14,20 @@ CONEXIONES
 4. Conectar USB-C al puerto de programacion.
 
 CONTROLES
-Mirando el modulo con el texto PMOD-BTN4+4 legible y los botones abajo:
-- Boton del extremo derecho (B0, F5): pulsacion de prueba.
-- Siguiente boton hacia la izquierda (B1, G7): reset. Mantenerlo presionado
-  un momento despues de cargar el archivo para iniciar todo el estado.
-- Switch del extremo derecho (bit 0, G5): ON habilita, OFF pausa.
-- Siguiente switch hacia la izquierda (bit 1, G8): OFF usa K=3, ON usa K=5.
+Para usar esta numeracion, mirar la cara de componentes del modulo con los
+cuatro botones blancos arriba, las cuatro palancas debajo y los pines del
+conector hacia abajo. Contar de izquierda a derecha:
+
+Botones: [1: prueba] [2: reset] [3: sin uso] [4: sin uso]
+Switches:[1: enable] [2: K]     [3: sin uso] [4: sin uso]
+
+- Boton 1 (B0, F5): pulsacion de prueba.
+- Boton 2 (B1, G7): reset. Presionarlo y soltarlo despues de cargar el archivo
+  para iniciar todo el estado.
+- Switch 1, alineado con el boton 1 (G5): ON habilita, OFF pausa.
+- Switch 2, alineado con el boton 2 (G8): OFF usa K=3, ON usa K=5.
   Al cambiarlo, el circuito reinicia su estado automaticamente.
-- Los otros dos botones y los otros dos switches quedan sin uso.
+- Cada switch es una sola palanca, aunque las cuatro vengan en dos grupos.
 
 LED (D1 a D8, numeracion del esquema PMOD_LEDx8)
 D1: nivel filtrado.
@@ -75,4 +81,7 @@ en cero. El orden D1..D8 se asigno segun el esquema, no segun el vector del demo
 
 ESTADO
 Generado y comprobado por simulacion, sintesis y place & route.
-Falta cargarlo y comprobar los modulos fisicos en la placa del usuario.
+Cargado por SRAM y probado con los modulos el 13 de noviembre de 2026.
+Se comprobo la alternancia de play con K=3 y K=5, el reset, la pausa y la
+reanudacion, y que el reset borra play incluso durante la pausa.
+Los resultados de simulacion y de la prueba en placa estan en RESULTADOS.txt.

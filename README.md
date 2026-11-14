@@ -66,4 +66,9 @@ La carpeta fpga contiene la adaptacion para el modulo de 8 LED y el de
 4 botones con 4 switches. Las conexiones y la prueba estan en
 [fpga/LEEME.txt](fpga/LEEME.txt). top_module.v conserva el codigo del reto.
 
+En la placa se probaron K=3 y K=5. play alterna con cada pulsacion y conserva
+su estado al soltar el boton. Tambien funcionaron la pausa, la reanudacion y
+el reset estando en pausa. Los detalles estan en
+[fpga/RESULTADOS.txt](fpga/RESULTADOS.txt).
+
 Repositorio: https://github.com/Rikyry/verilog-CC07-20230113
